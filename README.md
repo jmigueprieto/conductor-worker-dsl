@@ -15,6 +15,12 @@ worker {
 }
 ```
 
+This depends on the Orkes client which provides support for authentication. That client is not yet available in a repository, so in `orkes-conductor` project you
+have to publish the client to your local maven repo i.e.:
+
+```bash
+./gradlew -p client publishToMavenLocal
+```
 
 **TODO**
 - Review Gradle setup/dependency management. A developer should be able to just do `@Grab('io.orkes.conductor:groovy-dsl:0.0.1')` and run `groovy worker.groovy`.
