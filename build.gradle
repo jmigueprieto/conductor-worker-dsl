@@ -89,13 +89,6 @@ compileJava {
     targetCompatibility = 11
 }
 
-//jar {
-//    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
-//    from {
-//        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
-//    }
-//}
-
 publishing {
     publications {
         shadow(MavenPublication) { publication ->
