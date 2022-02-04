@@ -1,26 +1,46 @@
 # Groovy Client DSL
 
-This project provides a DSL inspired in Gradle and Jenkins pipelines to writer Conductor clients.
+This project provides a DSL inspired in Gradle and Jenkins Pipelines to write Conductor clients.
 
-For example, this is how you would write a worker:
+Here's a sample worker:
 
 ```groovy
+@Grab("io.orkes.conductor:groovy-dsl-client:1.0-SNAPSHOT")
+import static io.orkes.client.dsl.Worker.worker
+import com.netflix.conductor.common.metadata.tasks.TaskResult
+
 worker {
     rootUri 'http://localhost:8080/api/'
-    name 'sample_worker'
+    name 'hello_world_worker'
+    keyId '_CHANGE_ME_' // Create an Application and Access Key on Conductor UI
+    secret '_CHANGE_ME_'
     start {
-        println('Sample worker')
+        println('Hello World!')
         TaskResult.complete()
     }
 }
 ```
 
-This depends on the Orkes client which provides support for authentication. That client is not yet available in a repository, so in `orkes-conductor` project you
-have to publish the client to your local maven repo i.e.:
+To run this worker (assuming you have Groovy 3.0.x installed) you can execute:
+
+```bash
+groovy sample-worker.groovy
+```
+
+**NOTES**
+
+This artifact is not yet published in any repository, so you need to publish it to your local maven repo.
+
+1. This project depends on `orkes-client-client` which is not published to any repository either. In `orkes-conductor` project run:
 
 ```bash
 ./gradlew -p client publishToMavenLocal
 ```
 
+2. In this project run:
+```bash
+ ./gradlew publishToMavenLocal
+```
+
 **TODO**
-- Review Gradle setup/dependency management. A developer should be able to just do `@Grab('io.orkes.conductor:groovy-dsl:0.0.1')` and run `groovy worker.groovy`.
+- Review Gradle setup/dependency management. 
