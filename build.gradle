@@ -1,0 +1,88 @@
+plugins {
+    id 'groovy'
+    id 'java'
+}
+
+repositories {
+    mavenCentral()
+    mavenLocal() {
+        content {
+            includeGroup "com.netflix.conductor"
+            includeGroup "io.orkes.conductor"
+        }
+    }
+}
+
+ext {
+    appVersion = '1.0-SNAPSHOT'
+    versions = [
+            conductor: '3.3.1',
+            guava    : '31.0.1-jre',
+            im4java  : '1.4.0',
+            log4j    : '2.17.1'
+    ]
+}
+
+group 'io.orkes.conductor'
+version "${appVersion}"
+
+dependencies {
+    implementation('org.apache.logging.log4j:log4j-api') {
+        version {
+            strictly "${versions.log4j}"
+        }
+    }
+
+    implementation('org.apache.logging.log4j:log4j-core') {
+        version {
+            strictly "${versions.log4j}"
+        }
+    }
+
+    implementation('org.apache.logging.log4j:log4j-jul') {
+        version {
+            strictly "${versions.log4j}"
+        }
+    }
+
+    implementation('org.apache.logging.log4j:log4j-web') {
+        version {
+            strictly "${versions.log4j}"
+        }
+    }
+
+    implementation('org.apache.logging.log4j:log4j-to-slf4j') {
+        version {
+            strictly "${versions.log4j}"
+        }
+    }
+
+    implementation 'org.slf4j:slf4j-log4j12:1.7.35'
+
+    implementation("io.orkes.conductor:orkes-conductor-client:0.0.1-SNAPSHOT") {
+        exclude group: 'com.github.vmg.protogen', module: 'protogen-annotations'
+        exclude group: 'org.apache.logging.log4j', module: 'log4j-slf4j-impl'
+    }
+    implementation("com.netflix.conductor:conductor-client:${versions.conductor}") {
+        exclude group: 'com.github.vmg.protogen', module: 'protogen-annotations'
+        exclude group: 'org.apache.logging.log4j', module: 'log4j-slf4j-impl'
+    }
+
+    implementation("com.netflix.conductor:conductor-common:${versions.conductor}") {
+        exclude group: 'com.github.vmg.protogen', module: 'protogen-annotations'
+        exclude group: 'org.apache.logging.log4j', module: 'log4j-slf4j-impl'
+    }
+
+    implementation 'org.codehaus.groovy:groovy-all:3.0.5'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
+}
+
+test {
+    useJUnitPlatform()
+}
+
+compileJava {
+    sourceCompatibility = 11
+    targetCompatibility = 11
+}
