@@ -1,6 +1,8 @@
 plugins {
     id 'groovy'
     id 'java'
+    id 'maven-publish'
+    id 'com.github.johnrengelman.shadow' version '7.1.2'
 }
 
 repositories {
@@ -73,7 +75,7 @@ dependencies {
         exclude group: 'org.apache.logging.log4j', module: 'log4j-slf4j-impl'
     }
 
-    implementation 'org.codehaus.groovy:groovy-all:3.0.5'
+    compileOnly 'org.codehaus.groovy:groovy-all:3.0.9'
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
 }
@@ -85,4 +87,25 @@ test {
 compileJava {
     sourceCompatibility = 11
     targetCompatibility = 11
+}
+
+//jar {
+//    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+//    from {
+//        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+//    }
+//}
+
+publishing {
+    publications {
+        shadow(MavenPublication) { publication ->
+            project.shadow.component(publication)
+        }
+    }
+}
+
+tasks {
+    shadowJar {
+        archiveClassifier.set("")
+    }
 }
