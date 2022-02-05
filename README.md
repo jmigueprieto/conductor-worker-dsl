@@ -24,7 +24,7 @@ worker {
 To run this worker (assuming you have Groovy 3.0.x installed) you can execute:
 
 ```bash
-groovy sample-worker.groovy
+groovy hello-world-worker.groovy
 ```
 
 **NOTES**
