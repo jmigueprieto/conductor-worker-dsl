@@ -5,6 +5,7 @@ This project provides a DSL inspired in Gradle and Jenkins Pipelines to write Co
 Here's a sample worker:
 
 ```groovy
+@GrabResolver(name='custom', root='http://customserver/repo', m2Compatible='true')
 @Grab("io.orkes.conductor:groovy-dsl-client:1.0-SNAPSHOT")
 import static io.orkes.client.dsl.Worker.worker
 import com.netflix.conductor.common.metadata.tasks.TaskResult
@@ -26,21 +27,3 @@ To run this worker (assuming you have Groovy 3.0.x installed) you can execute:
 ```bash
 groovy hello-world-worker.groovy
 ```
-
-**NOTES**
-
-This artifact is not yet published in any repository, so you need to publish it to your local maven repo.
-
-1. This project depends on `orkes-client-client` which is not published to any repository either. In `orkes-conductor` project run:
-
-```bash
-./gradlew -p client publishToMavenLocal
-```
-
-2. In this project run:
-```bash
- ./gradlew publishToMavenLocal
-```
-
-**TODO**
-- Review Gradle setup/dependency management. 
