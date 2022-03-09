@@ -11,10 +11,11 @@ repositories {
 
 ext {
     versions = [
-            conductor: '3.3.1',
-            guava    : '31.0.1-jre',
-            im4java  : '1.4.0',
-            log4j    : '2.17.1'
+            conductor   : '3.5.0',
+            orkesClient : '0.1.4',
+            guava       : '31.0.1-jre',
+            im4java     : '1.4.0',
+            log4j       : '2.17.1'
     ]
 }
 
@@ -53,19 +54,9 @@ dependencies {
 
     implementation 'org.slf4j:slf4j-log4j12:1.7.35'
 
-    implementation("io.orkes.conductor:orkes-conductor-client:0.1.4") {
-        exclude group: 'com.github.vmg.protogen', module: 'protogen-annotations'
-        exclude group: 'org.apache.logging.log4j', module: 'log4j-slf4j-impl'
-    }
-    implementation("com.netflix.conductor:conductor-client:${versions.conductor}") {
-        exclude group: 'com.github.vmg.protogen', module: 'protogen-annotations'
-        exclude group: 'org.apache.logging.log4j', module: 'log4j-slf4j-impl'
-    }
-
-    implementation("com.netflix.conductor:conductor-common:${versions.conductor}") {
-        exclude group: 'com.github.vmg.protogen', module: 'protogen-annotations'
-        exclude group: 'org.apache.logging.log4j', module: 'log4j-slf4j-impl'
-    }
+    implementation("io.orkes.conductor:orkes-conductor-client:${versions.orkesClient}")
+    implementation("com.netflix.conductor:conductor-client:${versions.conductor}")
+    implementation("com.netflix.conductor:conductor-common:${versions.conductor}")
 
     compileOnly 'org.codehaus.groovy:groovy-all:3.0.9'
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
@@ -101,5 +92,12 @@ publishing {
 tasks {
     shadowJar {
         archiveClassifier.set("")
+    }
+}
+
+configurations {
+    all {
+        exclude group: 'com.github.vmg.protogen', module: 'protogen-annotations'
+        exclude group: 'org.apache.logging.log4j', module: 'log4j-slf4j-impl'
     }
 }
