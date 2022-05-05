@@ -7,60 +7,42 @@ plugins {
 
 repositories {
     mavenCentral()
+    maven {
+        url 'https://orkes-artifacts-repo.s3.amazonaws.com/snapshots/'
+        content {
+            includeGroup 'io.orkes.conductor'
+        }
+    }
 }
 
 ext {
     versions = [
-            conductor   : '3.5.0',
-            orkesClient : '0.1.4',
-            guava       : '31.0.1-jre',
-            im4java     : '1.4.0',
-            log4j       : '2.17.1'
+            conductor  : '3.5.0',
+            groovy     : '3.0.9',
+            guava      : '31.0.1-jre',
+            im4java    : '1.4.0',
+            junit      : '5.7.0',
+            log4j      : '2.17.1!!',
+            orkesClient: '0.2.0',
+            slf4j      : '1.7.35'
     ]
 }
 
 group 'io.orkes.conductor'
 
 dependencies {
-    implementation('org.apache.logging.log4j:log4j-api') {
-        version {
-            strictly "${versions.log4j}"
-        }
-    }
-
-    implementation('org.apache.logging.log4j:log4j-core') {
-        version {
-            strictly "${versions.log4j}"
-        }
-    }
-
-    implementation('org.apache.logging.log4j:log4j-jul') {
-        version {
-            strictly "${versions.log4j}"
-        }
-    }
-
-    implementation('org.apache.logging.log4j:log4j-web') {
-        version {
-            strictly "${versions.log4j}"
-        }
-    }
-
-    implementation('org.apache.logging.log4j:log4j-to-slf4j') {
-        version {
-            strictly "${versions.log4j}"
-        }
-    }
-
-    implementation 'org.slf4j:slf4j-log4j12:1.7.35'
-
-    implementation("io.orkes.conductor:orkes-conductor-client:${versions.orkesClient}")
-    implementation("com.netflix.conductor:conductor-client:${versions.conductor}")
-    implementation("com.netflix.conductor:conductor-common:${versions.conductor}")
+    implementation "io.orkes.conductor:orkes-conductor-client:${versions.orkesClient}"
+    implementation "org.apache.logging.log4j:log4j-api:${versions.log4j}"
+    implementation "org.apache.logging.log4j:log4j-core:${versions.log4j}"
+    implementation "org.apache.logging.log4j:log4j-jul:${versions.log4j}"
+    implementation "org.apache.logging.log4j:log4j-web:${versions.log4j}"
+    implementation "org.apache.logging.log4j:log4j-to-slf4j:${versions.log4j}"
+    implementation "org.slf4j:slf4j-log4j12:${versions.slf4j}"
 
     compileOnly 'org.codehaus.groovy:groovy-all:3.0.9'
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
+
+    testImplementation "org.junit.jupiter:junit-jupiter-api:${versions.junit}"
+    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:${versions.junit}"
 }
 
 test {
@@ -81,7 +63,7 @@ publishing {
 
     repositories {
         maven {
-            url "s3://orkes-artifacts-repo/releases"
+            url = "s3://orkes-artifacts-repo/${project.version.endsWith('-SNAPSHOT') ? "snapshots" : "releases"}"
             authentication {
                 awsIm(AwsImAuthentication)
             }

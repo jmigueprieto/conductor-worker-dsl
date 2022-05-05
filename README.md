@@ -6,7 +6,7 @@ Here's a sample worker:
 
 ```groovy
 @GrabResolver(name='orkes-repo', root='https://orkes-artifacts-repo.s3.amazonaws.com/releases', m2Compatible='true')
-@Grab("io.orkes.conductor:groovy-dsl-client:0.1.1")
+@Grab("io.orkes.conductor:groovy-dsl-client:0.2.0")
 import static io.orkes.client.dsl.Worker.worker
 import com.netflix.conductor.common.metadata.tasks.TaskResult
 
